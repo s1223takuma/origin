@@ -4,6 +4,7 @@ from django.views import View
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import LoginView, LogoutView
 
 def index(request):
     return render(request, "blog/index.html")
@@ -50,3 +51,8 @@ class MypageView(LoginRequiredMixin, View):
 
     def get(self, request):
         return render(request, "blog/mypage.html")
+
+# import に LogoutView を追加する
+
+class AccountLogoutView(LogoutView):
+    template_name = 'blog/logout.html'

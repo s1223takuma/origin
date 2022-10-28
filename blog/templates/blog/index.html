@@ -11,6 +11,9 @@
     <div>
         {% if user.is_authenticated %}
         {{ user.username }} さん
+        <div>
+            <a href="/blog/logout">ログアウト</a>
+        </div>
         {% else %}
             ログインしていません
         {% endif %}
