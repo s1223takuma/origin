@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
+from blog.models import Article
 
 def index(request):
     return render(request, "blog/index.html")
@@ -56,3 +57,21 @@ class MypageView(LoginRequiredMixin, View):
 
 class AccountLogoutView(LogoutView):
     template_name = 'blog/logout.html'
+class ArticleCreateView(LoginRequiredMixin, View):
+    login_url = "/blog/login"
+    def get(self, request):
+        return render(request, "blog/article_new.html")
+
+class MypageArticleView(LoginRequiredMixin, View):
+    login_url = "/blog/login"
+    def post(self, request):
+        """新しく記事を作製する"""
+        # リクエストで受け取った情報をDBに保存する
+        article = Article(
+            title=request.POST["title"],
+            body=request.POST["body"],
+            # user には、現在ログイン中のユーザーをセットする
+            user=request.user,
+        )
+        article.save()
+        return render(request, "blog/article_created.html")
