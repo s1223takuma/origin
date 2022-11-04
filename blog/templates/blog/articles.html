@@ -1,16 +1,22 @@
 <html>
-<head>
-    <title>記事一覧</title>
-</head>
+    <head>
+        <title>記事一覧</title>
+    </head>
 
-<body>
-    <h1>記事一覧</h1>
-    {% for article in articles %}
+    <body>
+        <h1>記事一覧</h1>
+        {% for article in articles %}
         <div>{{ article.title }}</div>
         <div>{{article.body}}</div>
-    {% endfor %}
-    <div>
-        <a href="/blog">トップページに戻る</a>
-    </div>
-</body>
+        {% endfor %}
+        <h2>投稿された記事一覧</h2>
+        {% for article in articles %}
+        <div>
+            <p><a href="/blog/articles/{{ article.id }}"> {{ article.title }} </a>:    この記事の投稿者{{ article.user.username }}</p>
+        </div>
+        {% endfor %}
+        <div>
+            <a href="/blog">トップページに戻る</a>
+        </div>
+    </body>
 </html>

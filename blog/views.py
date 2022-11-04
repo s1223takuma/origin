@@ -8,7 +8,10 @@ from django.contrib.auth.views import LoginView, LogoutView
 from blog.models import Article
 
 def index(request):
-    return render(request, "blog/index.html")
+    articles = Article.objects.all()
+    return render(request, "blog/index.html", {
+        "articles": articles
+    })
 
 def detail(request):
     return HttpResponse("detail page")
@@ -16,6 +19,15 @@ def detail(request):
 class AccountCreateView(View):
     def get(self, request):
         return render(request, "blog/register.html")
+
+class ArticleView(View):
+    # urls.py の <id> が、 id に入る
+    def get(self, request, id):
+        # get は条件に合致した記事を一つ取得する
+        article = Article.objects.get(id=id)
+        return render(request, "blog/article.html", {
+        "article": article,
+        })
 
 
 class AccountCreateView(View):
@@ -47,11 +59,13 @@ class AccountLoginView(LoginView):
 # 実は、Python では複数のクラスを継承できます
 # 順番は必ず LoginRequiredMixin, View の順番にしてください
 class MypageView(LoginRequiredMixin, View):
-    # ログインしていない場合に飛ばすページの設定
     login_url = '/blog/login'
 
     def get(self, request):
-        return render(request, "blog/mypage.html")
+        articles = Article.objects.filter(user=request.user)
+        return render(request, "blog/mypage.html", {
+            "articles": articles
+        })
 
 # import に LogoutView を追加する
 
