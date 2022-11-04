@@ -75,3 +75,14 @@ class MypageArticleView(LoginRequiredMixin, View):
         )
         article.save()
         return render(request, "blog/article_created.html")
+class ArticleListView(View):
+    def get(self, request):
+        # Django の機能である model を使ってすべての記事を取得する
+        # articles は Article のリストになる
+        articles = Article.objects.all()
+        
+        # 取得した記事一覧をテンプレートにわたす
+        # こうすると、テンプレートの中で articles という変数が渡せる
+        return render(request, "blog/articles.html", {
+            "articles": articles
+        })
