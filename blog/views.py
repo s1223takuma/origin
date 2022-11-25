@@ -6,11 +6,16 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView
 from blog.models import Article
+from blog.qiita import QiitaApiClient
 
 def index(request):
+    # Article の model を使ってすべての記事を取得する
+    # Article.objects.all() は article のリストが返ってくる
     articles = Article.objects.all()
+    # こうすることで、article 変数をテンプレートにわたす事ができる
+    # {テンプレート上での変数名: 渡す変数}
     return render(request, "blog/index.html", {
-        "articles": articles
+        "articles": articles,
     })
 
 def detail(request):
@@ -60,11 +65,13 @@ class AccountLoginView(LoginView):
 # 順番は必ず LoginRequiredMixin, View の順番にしてください
 class MypageView(LoginRequiredMixin, View):
     login_url = '/blog/login'
-
     def get(self, request):
+        qiita_api = QiitaApiClient()
+        qiita_articles = qiita_api.get_django_articles()
         articles = Article.objects.filter(user=request.user)
         return render(request, "blog/mypage.html", {
-            "articles": articles
+            "articles": articles,
+            "qiita_articles": qiita_articles,
         })
 
 # import に LogoutView を追加する

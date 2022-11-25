@@ -1,29 +1,26 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>top page</h1>
-    <div>
-        {% if user.is_authenticated %}
-        {{ user.username }} さん
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <h1>top page</h1>
         <div>
-            <a href="/blog/logout">ログアウト</a>
+            {% if user.is_authenticated %} {{ user.username }} さん
+            <div>
+                <a href="/blog/logout">ログアウト</a>
+            </div>
+            {% else %} ログインしていません {% endif %}
         </div>
-        {% else %}
-            ログインしていません
-        {% endif %}
-    </div>
-    <div>
-        <a href="/blog/mypage">マイページ</a>
-        <a href="/blog/detail">detail</a>
-        <a href="/blog/login">ログイン</a>
-        <a href="/blog/register">新規登録</a>
-        <a href="/blog/articles">記事一覧</a>
-    </div>
-</body>
+        <div>
+            <a href="/blog/mypage">マイページ</a>
+            <a href="/blog/detail">detail</a>
+            <a href="/blog/login">ログイン</a>
+            <a href="/blog/register">新規登録</a>
+            <a href="/blog/articles">記事一覧</a>
+        </div>
+    </body>
 </html>
