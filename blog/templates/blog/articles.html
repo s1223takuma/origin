@@ -12,10 +12,26 @@
         <h2>投稿された記事一覧</h2>
         {% for article in articles %}
         <div>
-            <p><a href="/blog/articles/{{ article.id }}"> {{ article.title }} </a>:    この記事の投稿者{{ article.user.username }}</p>
+            <p>
+                <a href="/blog/articles/{{ article.id }}">
+                    {{ article.title }} </a
+                >: この記事の投稿者{{ article.user.username }}
+            </p>
         </div>
         {% endfor %}
         <div>
+            <h2>Qiitaの記事一覧</h2>
+            {% if is_qiita_error %} Qiitaから記事を取得できませんでした 
+            {% endif%} 
+            {% for qiita_article in qiita_articles %}
+            <div>
+                <a href="{{ qiita_article.url }}">
+                    {{ qiita_article.title }}
+                </a>
+                <p></p>
+            </div>
+            {% endfor %}
+            <p></p>
             <a href="/blog">トップページに戻る</a>
         </div>
     </body>
